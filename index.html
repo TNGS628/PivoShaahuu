@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beer Time? 🍺</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Righteous&family=Rubik:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated beer bubbles background */
+        .bubble-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 193, 7, 0.1));
+            border-radius: 50%;
+            animation: rise 8s infinite ease-in;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes rise {
+            0% {
+                bottom: -100px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 110vh;
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 60px 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 550px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3.5em;
+            color: #ffc107;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5),
+                         0 0 20px rgba(255, 193, 7, 0.3);
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5),
+                             0 0 20px rgba(255, 193, 7, 0.3);
+            }
+            50% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5),
+                             0 0 40px rgba(255, 193, 7, 0.6);
+            }
+        }
+
+        .question {
+            font-family: 'Righteous', cursive;
+            font-size: 2em;
+            color: #ffffff;
+            margin: 30px 0;
+            font-weight: 400;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .emoji {
+            font-size: 5em;
+            margin: 20px 0;
+            display: inline-block;
+            animation: spin 3s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(255, 193, 7, 0.5));
+        }
+
+        @keyframes spin {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-end;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        /* Beer mug button styling */
+        .beer-btn {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: transparent;
+            padding: 0;
+        }
+
+        .beer-btn:active {
+            transform: scale(0.95);
+        }
+
+        .beer-mug {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Beer glass */
+        .glass {
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(180deg, #ffd54f 0%, #ffb300 100%);
+            border-radius: 0 0 15px 15px;
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3),
+                        0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid #ff8f00;
+            overflow: hidden;
+        }
+
+        /* Beer foam */
+        .foam {
+            position: absolute;
+            top: -15px;
+            left: -5px;
+            right: -5px;
+            height: 30px;
+            background: #fffde7;
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0 -5px 15px rgba(255, 255, 255, 0.8);
+        }
+
+        .foam::before,
+        .foam::after {
+            content: '';
+            position: absolute;
+            background: #fffde7;
+            border-radius: 50%;
+        }
+
+        .foam::before {
+            width: 20px;
+            height: 20px;
+            top: -8px;
+            left: 10px;
+        }
+
+        .foam::after {
+            width: 25px;
+            height: 25px;
+            top: -10px;
+            right: 15px;
+        }
+
+        /* Beer handle */
+        .handle {
+            position: absolute;
+            right: -25px;
+            top: 30px;
+            width: 30px;
+            height: 50px;
+            border: 5px solid #ff8f00;
+            border-left: none;
+            border-radius: 0 20px 20px 0;
+        }
+
+        /* Button text */
+        .btn-text {
+            margin-top: 15px;
+            font-size: 1.4em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+        }
+
+        /* Yes button specific styles */
+        #yesBtn .glass {
+            animation: bubbleUp 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bubbleUp {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        #yesBtn:hover .beer-mug {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        #yesBtn:hover .glass {
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+                        0 10px 30px rgba(255, 193, 7, 0.6);
+        }
+
+        /* No button specific styles */
+        #noBtn:hover .beer-mug {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        /* Bubbles inside beer */
+        .beer-bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .beer-bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: bubbleRise 2s infinite ease-in;
+        }
+
+        @keyframes bubbleRise {
+            0% {
+                bottom: 0;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* Success screen */
+        .success {
+            display: none;
+            animation: celebration 1s ease-out;
+        }
+
+        @keyframes celebration {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .success h1 {
+            font-size: 4em;
+            color: #ffc107;
+        }
+
+        .success .emoji {
+            font-size: 7em;
+            animation: cheers 1s ease-in-out infinite;
+        }
+
+        @keyframes cheers {
+            0%, 100% {
+                transform: rotate(-10deg);
+            }
+            50% {
+                transform: rotate(10deg);
+            }
+        }
+
+        .success p {
+            font-size: 1.6em;
+            color: #ffffff;
+            margin-top: 30px;
+            line-height: 1.8;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Toast animation */
+        .toast {
+            position: absolute;
+            font-size: 3em;
+            animation: toastFly 2s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes toastFly {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(1.5);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 30px;
+                margin: 20px;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .question {
+                font-size: 1.5em;
+            }
+
+            .emoji {
+                font-size: 4em;
+            }
+
+            .glass {
+                width: 60px;
+                height: 90px;
+            }
+
+            .handle {
+                right: -20px;
+                width: 25px;
+                height: 40px;
+            }
+
+            .btn-text {
+                font-size: 1.1em;
+            }
+
+            .buttons {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bubble-bg" id="bubbleBg"></div>
+    
+    <div class="container">
+        <div id="question">
+            <h1>HEY BUDDY! 🍺</h1>
+            <div class="emoji">🍻</div>
+            <p class="question">Wanna grab a beer?</p>
+            <div class="buttons">
+                <button class="beer-btn" id="yesBtn">
+                    <div class="beer-mug">
+                        <div class="foam"></div>
+                        <div class="glass">
+                            <div class="beer-bubbles">
+                                <div class="beer-bubble" style="width: 8px; height: 8px; left: 20%; animation-delay: 0s;"></div>
+                                <div class="beer-bubble" style="width: 6px; height: 6px; left: 50%; animation-delay: 0.5s;"></div>
+                                <div class="beer-bubble" style="width: 7px; height: 7px; left: 70%; animation-delay: 1s;"></div>
+                                <div class="beer-bubble" style="width: 5px; height: 5px; left: 35%; animation-delay: 1.5s;"></div>
+                            </div>
+                        </div>
+                        <div class="handle"></div>
+                    </div>
+                    <div class="btn-text">HELL YEAH!</div>
+                </button>
+
+                <button class="beer-btn" id="noBtn">
+                    <div class="beer-mug">
+                        <div class="foam"></div>
+                        <div class="glass">
+                            <div class="beer-bubbles">
+                                <div class="beer-bubble" style="width: 8px; height: 8px; left: 20%; animation-delay: 0s;"></div>
+                                <div class="beer-bubble" style="width: 6px; height: 6px; left: 50%; animation-delay: 0.5s;"></div>
+                                <div class="beer-bubble" style="width: 7px; height: 7px; left: 70%; animation-delay: 1s;"></div>
+                            </div>
+                        </div>
+                        <div class="handle"></div>
+                    </div>
+                    <div class="btn-text">Nah</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="success" id="success">
+            <div class="emoji">🍺</div>
+            <h1>CHEERS! 🍻</h1>
+            <div class="emoji">🎉</div>
+            <p>That's what I'm talking about!<br><br>Let's make it happen! First round's on me! 🍻</p>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionDiv = document.getElementById('question');
+        const successDiv = document.getElementById('success');
+
+        let noClickCount = 0;
+        let yesScale = 1;
+        let noScale = 1;
+
+        // Create floating bubbles background
+        function createBubbles() {
+            const bubbleBg = document.getElementById('bubbleBg');
+            
+            for (let i = 0; i < 30; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 60 + 20;
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.animationDelay = Math.random() * 8 + 's';
+                bubble.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                bubbleBg.appendChild(bubble);
+            }
+        }
+
+        createBubbles();
+
+        // Create toast emojis effect
+        function createToasts() {
+            const toastEmojis = ['🍺', '🍻', '🍾', '🥂', '🎉', '🔥', '💯'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const toast = document.createElement('div');
+                    toast.className = 'toast';
+                    toast.textContent = toastEmojis[Math.floor(Math.random() * toastEmojis.length)];
+                    toast.style.left = Math.random() * 100 + '%';
+                    toast.style.top = Math.random() * 100 + '%';
+                    toast.style.animationDelay = Math.random() * 0.3 + 's';
+                    document.body.appendChild(toast);
+                    
+                    setTimeout(() => toast.remove(), 2000);
+                }, i * 30);
+            }
+        }
+
+        yesBtn.addEventListener('click', () => {
+            questionDiv.style.display = 'none';
+            successDiv.style.display = 'block';
+            createToasts();
+        });
+
+        noBtn.addEventListener('click', () => {
+            noClickCount++;
+            
+            // Shrink the "No" beer mug
+            noScale = Math.max(0.3, noScale - 0.15);
+            const noBeerMug = noBtn.querySelector('.beer-mug');
+            const noText = noBtn.querySelector('.btn-text');
+            noBeerMug.style.transform = `scale(${noScale})`;
+            noText.style.fontSize = `${Math.max(0.7, 1.4 - noClickCount * 0.12)}em`;
+            
+            // Grow the "Yes" beer mug
+            yesScale += 0.2;
+            const yesBeerMug = yesBtn.querySelector('.beer-mug');
+            const yesText = yesBtn.querySelector('.btn-text');
+            yesBeerMug.style.transform = `scale(${yesScale})`;
+            yesText.style.fontSize = `${1.4 + noClickCount * 0.15}em`;
+
+            // Change the "No" button text to be more persuasive
+            const noTexts = [
+                'Nah',
+                'You sure?',
+                'Really?',
+                'Come on!',
+                'One beer?',
+                'Please? 🙏',
+                'Just one!',
+                'Last chance!',
+                'Seriously?',
+                'Don\'t be lame!'
+            ];
+            
+            if (noClickCount < noTexts.length) {
+                noText.textContent = noTexts[noClickCount];
+            }
+
+            // Make the No button fade after many attempts
+            if (noClickCount > 5) {
+                noBtn.style.opacity = Math.max(0.3, 1 - (noClickCount - 5) * 0.1);
+            }
+
+            // Add shake animation
+            noBtn.style.animation = 'none';
+            setTimeout(() => {
+                noBtn.style.animation = 'shake 0.5s';
+            }, 10);
+        });
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-15px) rotate(-5deg); }
+                75% { transform: translateX(15px) rotate(5deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
