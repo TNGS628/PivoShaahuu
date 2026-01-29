@@ -25,7 +25,6 @@
             overflow: hidden;
         }
 
-        /* Animated beer bubbles background */
         .bubble-bg {
             position: absolute;
             width: 100%;
@@ -143,7 +142,6 @@
             flex-wrap: wrap;
         }
 
-        /* Beer mug button styling */
         .beer-btn {
             font-family: 'Rubik', sans-serif;
             font-weight: 700;
@@ -170,7 +168,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Beer glass */
         .glass {
             width: 80px;
             height: 120px;
@@ -183,7 +180,6 @@
             overflow: hidden;
         }
 
-        /* Beer foam */
         .foam {
             position: absolute;
             top: -15px;
@@ -217,7 +213,6 @@
             right: 15px;
         }
 
-        /* Beer handle */
         .handle {
             position: absolute;
             right: -25px;
@@ -229,7 +224,6 @@
             border-radius: 0 20px 20px 0;
         }
 
-        /* Button text */
         .btn-text {
             margin-top: 15px;
             font-size: 1.4em;
@@ -238,7 +232,6 @@
             font-weight: 700;
         }
 
-        /* Yes button specific styles */
         #yesBtn .glass {
             animation: bubbleUp 1.5s ease-in-out infinite;
         }
@@ -261,12 +254,10 @@
                         0 10px 30px rgba(255, 193, 7, 0.6);
         }
 
-        /* No button specific styles */
         #noBtn:hover .beer-mug {
             transform: scale(1.05) rotate(5deg);
         }
 
-        /* Bubbles inside beer */
         .beer-bubbles {
             position: absolute;
             width: 100%;
@@ -294,7 +285,6 @@
             }
         }
 
-        /* Success screen */
         .success {
             display: none;
             animation: celebration 1s ease-out;
@@ -341,7 +331,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* Toast animation */
         .toast {
             position: absolute;
             font-size: 3em;
@@ -421,7 +410,7 @@
                         </div>
                         <div class="handle"></div>
                     </div>
-                    <div class="btn-text">ОК хаана уулзхын!</div>
+                    <div class="btn-text">Яг ганц шүү сд!</div>
                 </button>
 
                 <button class="beer-btn" id="noBtn">
@@ -457,7 +446,6 @@
         let yesScale = 1;
         let noScale = 1;
 
-        // Create floating bubbles background
         function createBubbles() {
             const bubbleBg = document.getElementById('bubbleBg');
             
@@ -476,7 +464,6 @@
 
         createBubbles();
 
-        // Create toast emojis effect
         function createToasts() {
             const toastEmojis = ['🍺', '🍻', '🍾', '🥂', '🎉', '🔥', '💯'];
             for (let i = 0; i < 50; i++) {
@@ -503,14 +490,12 @@
         noBtn.addEventListener('click', () => {
             noClickCount++;
             
-            // Shrink the "No" beer mug
             noScale = Math.max(0.3, noScale - 0.15);
             const noBeerMug = noBtn.querySelector('.beer-mug');
             const noText = noBtn.querySelector('.btn-text');
             noBeerMug.style.transform = `scale(${noScale})`;
             noText.style.fontSize = `${Math.max(0.7, 1.4 - noClickCount * 0.12)}em`;
             
-            // Grow the "Yes" beer mug
             yesScale += 0.2;
             const yesBeerMug = yesBtn.querySelector('.beer-mug');
             const yesText = yesBtn.querySelector('.btn-text');
@@ -519,35 +504,29 @@
 
             // Change the "No" button text to be more persuasive
             const noTexts = [
-                'Nah',
-                'You sure?',
-                'Really?',
-                'Come on!',
-                'One beer?',
-                'Please? 🙏',
-                'Just one!',
-                'Last chance!',
-                'Seriously?',
-                'Don\'t be lame!'
+                'Лай',
+                'Мар ажилтай?',
+                'Ганц хоёрхоншд?',
+                'ЭЭЭ!',
+                'Цалин буугаагүээ?',
+                '5 дахд шаая? 🙏',
+                'За ганц шаачдыму!',
             ];
             
             if (noClickCount < noTexts.length) {
                 noText.textContent = noTexts[noClickCount];
             }
 
-            // Make the No button fade after many attempts
             if (noClickCount > 5) {
                 noBtn.style.opacity = Math.max(0.3, 1 - (noClickCount - 5) * 0.1);
             }
 
-            // Add shake animation
             noBtn.style.animation = 'none';
             setTimeout(() => {
                 noBtn.style.animation = 'shake 0.5s';
             }, 10);
         });
 
-        // Add shake animation
         const style = document.createElement('style');
         style.textContent = `
             @keyframes shake {
@@ -561,3 +540,4 @@
 </body>
 
 </html>
+
